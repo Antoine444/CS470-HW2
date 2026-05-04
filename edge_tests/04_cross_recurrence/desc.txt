@@ -1,0 +1,1 @@
+Cross-recurrence: x2[i] depends on x3[i-1] AND x3[i] depends on x2[i-1] (via snapshot+update). Two interloop deps in a 2-node cycle through the back-edge.

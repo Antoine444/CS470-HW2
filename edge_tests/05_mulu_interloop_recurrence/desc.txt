@@ -1,0 +1,1 @@
+Mulu on interloop edge: x2[i] = x2[i-1] * x3. Recurrence latency forces II>=3 (mulu lat=3) even though resource bound is 1.

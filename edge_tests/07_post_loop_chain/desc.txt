@@ -1,0 +1,1 @@
+Multiple POST_LOOP consumers (mulu, add, 2 st) reading x5 and x6 produced at different kernel stages. Exercises K-1-p_stage rotating-register adjustment for distinct producers.

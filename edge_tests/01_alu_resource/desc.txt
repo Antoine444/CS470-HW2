@@ -1,0 +1,1 @@
+Five independent ALU ops in body: forces II>=3 by ALU resource bound (no dependencies, no recurrence).

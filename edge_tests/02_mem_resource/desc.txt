@@ -1,0 +1,1 @@
+Four independent memory ops in body: forces II>=4 by Mem-port resource bound.

@@ -1,0 +1,1 @@
+Three independent mulu ops in body: forces II>=3 by Mult-port resource bound; exercises mulu 3-cycle latency at kernel boundary.

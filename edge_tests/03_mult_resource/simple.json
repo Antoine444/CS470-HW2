@@ -1,0 +1,72 @@
+[
+  [
+    " mov LC, 9",
+    " mov x1, 3",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    " mov x2, 5",
+    " mov x3, 7",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    " mov x4, 11",
+    " mov x5, 13",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    " mov x6, 17",
+    " mov x7, 4096",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    "nop",
+    "nop",
+    " mulu x8, x1, x2",
+    "nop",
+    "nop"
+  ],
+  [
+    "nop",
+    "nop",
+    " mulu x9, x3, x4",
+    "nop",
+    "nop"
+  ],
+  [
+    "nop",
+    "nop",
+    " mulu x10, x5, x6",
+    "nop",
+    " loop 4"
+  ],
+  [
+    "nop",
+    "nop",
+    "nop",
+    " st x8, 0(x7)",
+    "nop"
+  ],
+  [
+    "nop",
+    "nop",
+    "nop",
+    " st x9, 8(x7)",
+    "nop"
+  ],
+  [
+    "nop",
+    "nop",
+    "nop",
+    " st x10, 16(x7)",
+    "nop"
+  ]
+]

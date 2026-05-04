@@ -1,0 +1,17 @@
+[
+    "mov LC, 9",
+    "mov x1, 3",
+    "mov x2, 5",
+    "mov x3, 7",
+    "mov x4, 11",
+    "mov x5, 13",
+    "mov x6, 17",
+    "mov x20, 0x1000",
+    "mulu x10, x1, x2",
+    "mulu x11, x3, x4",
+    "mulu x12, x5, x6",
+    "loop 8",
+    "st x10, 0(x20)",
+    "st x11, 8(x20)",
+    "st x12, 16(x20)"
+]

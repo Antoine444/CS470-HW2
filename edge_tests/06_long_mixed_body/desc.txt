@@ -1,0 +1,1 @@
+Long mixed body (~12 instr): 2 ld, 4 ALU, 2 mulu, 2 st, 3 interloop addi. Stresses register allocation pressure and rotating-register stride over many producers.

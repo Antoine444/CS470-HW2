@@ -1,0 +1,51 @@
+[
+  [
+    " mov LC, 9",
+    " mov x1, 2",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    " mov x2, 3",
+    "nop",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    "nop",
+    "nop",
+    " mulu x3, x1, x2",
+    "nop",
+    "nop"
+  ],
+  [
+    "nop",
+    "nop",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    "nop",
+    "nop",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    " mov x1, x3",
+    "nop",
+    "nop",
+    "nop",
+    " loop 2"
+  ],
+  [
+    "nop",
+    "nop",
+    "nop",
+    " st x3, 4096(x4)",
+    "nop"
+  ]
+]

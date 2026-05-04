@@ -1,0 +1,15 @@
+[
+    "mov LC, 19",
+    "addi x1, x0, 11",
+    "addi x2, x0, 22",
+    "addi x3, x0, 33",
+    "addi x4, x0, 44",
+    "addi x5, x0, 55",
+    "loop 1",
+    "mov x10, 0x1000",
+    "st x1, 0(x10)",
+    "st x2, 8(x10)",
+    "st x3, 16(x10)",
+    "st x4, 24(x10)",
+    "st x5, 32(x10)"
+]

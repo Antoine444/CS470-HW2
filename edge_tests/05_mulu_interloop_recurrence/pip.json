@@ -1,0 +1,51 @@
+[
+  [
+    " mov LC, 9",
+    " mov x33, 2",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    " mov x1, 3",
+    " mov EC, 0",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    " mov p32, true",
+    "nop",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    "nop",
+    "nop",
+    "(p32) mulu x32, x33, x1",
+    "nop",
+    "nop"
+  ],
+  [
+    "nop",
+    "nop",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    "nop",
+    "nop",
+    "nop",
+    "nop",
+    " loop.pip 3"
+  ],
+  [
+    "nop",
+    "nop",
+    "nop",
+    " st x32, 4096(x2)",
+    "nop"
+  ]
+]

@@ -1,0 +1,1 @@
+Minimal body: single instruction (addi) with self-interloop dep. Body length=1 corner case for both schedulers.
