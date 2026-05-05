@@ -28,6 +28,20 @@
     " loop.pip 3"
   ],
   [
+    "nop",
+    "nop",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
+    "nop",
+    "nop",
+    "nop",
+    "nop",
+    "nop"
+  ],
+  [
     " add x3, x35, x39",
     "nop",
     " mulu x2, x35, x35",

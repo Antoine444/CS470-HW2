@@ -19,8 +19,8 @@ Pipeline of the algorithm:
 6. The branch goes in the kernel's last bundle's Branch slot, at internal
    cycle bb1_start + K*II - 1.  Its `target` is the kernel's first output
    bundle index (alloc_r will rewrite if it inserts an init bundle).
-7. BB2 is scheduled ASAP after the kernel ignoring static post_loop cycle
-   constraints (the loop drains dynamically before BB2 fires).
+7. BB2 is scheduled ASAP after the kernel while enforcing post_loop
+   constraints for the last dynamic loop iteration.
 """
 from __future__ import annotations
 
@@ -137,7 +137,7 @@ def schedule_pip(instrs: list[Instr], da: DepAnalysis) -> PipSchedule:
     sched.stage_of[branch.addr] = K - 1
     branch.target = kernel_start  # alloc_r may rewrite if it inserts init
 
-    # --- BB2: ASAP after the kernel, ignoring post_loop cycle constraints.
+    # --- BB2: ASAP after the kernel, respecting post_loop readiness.
     sched.bb2_start = len(sched.bundles)
     _schedule_bb2_pip(da.bb2, da, sched, addr_to, sched.bb2_start)
 
@@ -203,7 +203,7 @@ def _try_modulo(
     return out
 
 
-# --- BB2 scheduling (ignores post_loop cycle constraints) ----------------
+# --- BB2 scheduling -------------------------------------------------------
 
 def _schedule_bb2_pip(
     block: list[Instr],
@@ -221,8 +221,8 @@ def _schedule_bb2_pip(
                 p_cycle = sched.cycle_of.get(d.producer_addr)
                 if p_cycle is not None:
                     earliest = max(earliest, p_cycle + latency_of(addr_to[d.producer_addr].op))
-            # POST_LOOP: BB1 producers' static cycles are kernel bundles which
-            # don't reflect the dynamic completion time after loop drain.
+            elif d.kind == POST_LOOP:
+                earliest = max(earliest, _post_loop_ready_cycle(d, sched, addr_to, start_cycle))
             # LOOP_INVARIANT and INTERLOOP do not appear for BB2 consumers.
         c = earliest
         while True:
@@ -232,3 +232,47 @@ def _schedule_bb2_pip(
                 _place(sched, ins, c, slot)
                 break
             c += 1
+
+
+def _post_loop_ready_cycle(
+    dep,
+    sched: PipSchedule,
+    addr_to: dict[int, Instr],
+    start_cycle: int,
+) -> int:
+    """Cycle when a BB2 consumer may read a value from the last loop iteration."""
+    if sched.II is None or sched.K is None or sched.kernel_start is None:
+        raise RuntimeError("missing pip schedule metadata for post-loop dependency")
+
+    p_addr = dep.producer_addr
+    if p_addr is None:
+        raise RuntimeError("post-loop dependency is missing a producer")
+    if p_addr not in sched.cycle_of:
+        raise RuntimeError(f"post-loop producer {p_addr} has no scheduled cycle")
+    if p_addr not in sched.stage_of:
+        raise RuntimeError(f"post-loop producer {p_addr} has no scheduled stage")
+    if p_addr not in addr_to:
+        raise RuntimeError(f"post-loop producer {p_addr} is unknown")
+
+    p_cycle = sched.cycle_of[p_addr]
+    p_stage = sched.stage_of[p_addr]
+    p_kslot = p_cycle - sched.kernel_start
+
+    if not (0 <= p_kslot < sched.II):
+        raise RuntimeError(
+            f"post-loop producer {p_addr} has invalid kernel slot {p_kslot}"
+        )
+    if not (0 <= p_stage < sched.K):
+        raise RuntimeError(
+            f"post-loop producer {p_addr} has invalid stage {p_stage}"
+        )
+
+    cycles_before_fallthrough = (
+        (sched.K - 1 - p_stage) * sched.II
+        + (sched.II - 1 - p_kslot)
+    )
+    wait_after_fallthrough = max(
+        0,
+        latency_of(addr_to[p_addr].op) - cycles_before_fallthrough - 1,
+    )
+    return start_cycle + wait_after_fallthrough

@@ -42,7 +42,7 @@ Each **bundle** (VLIW instruction word) has exactly 5 slots in this order:
 |-------|---------|---------------------------|
 | 0     | ALU0    | add, addi, sub, mov, nop  |
 | 1     | ALU1    | add, addi, sub, mov, nop  |
-| 2     | Mult    | mulu, nop (2-cycle latency)|
+| 2     | Mult    | mulu, nop (3-cycle latency)|
 | 3     | Mem     | ld, st, nop (1-cycle latency) |
 | 4     | Branch  | loop, loop.pip, nop       |
 
@@ -73,7 +73,7 @@ Output JSON is an array of bundles (arrays of 5 strings). Empty slots must be `"
 ## Data Hazards
 
 - ALU results available next cycle (1-cycle latency)
-- `mulu` result available 2 cycles later (2-cycle latency)
+- `mulu` result available 3 cycles later (3-cycle latency)
 - `ld` result available next cycle (1-cycle latency)
 - The `loop`/`loop.pip` branch instruction in a bundle executes in the same cycle as the other instructions in that bundle; the branch target is the first bundle of the loop body
 
